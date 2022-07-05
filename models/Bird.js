@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+//mongoose.set('debug', true); //Muestra por consola el debug de las queries a la base de datos
 
 let birdSchema = new mongoose.Schema({
   name: {
