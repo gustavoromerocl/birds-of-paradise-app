@@ -28,9 +28,11 @@ PDTE
 
 * [Express generator](https://expressjs.com/es/starter/generator.html) - Framework NodeJS
 * [Mongoose](https://mongoosejs.com/docs/index.html) - ODM
+* [Multer](https://www.npmjs.com/package/multer)
 
 ## Wiki 📖
 
+https://www.avesdelparaiso.org/
 
 ## Autores ✒️
 

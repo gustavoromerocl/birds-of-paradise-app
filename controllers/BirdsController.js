@@ -1,4 +1,5 @@
-let Bird = require('../models/Bird');
+const Bird = require('../models/Bird');
+const upload = require('../config/upload');
 
 //Mostrar todos los recursos del schema Bird
 const index = async (req, res) => {
@@ -71,5 +72,9 @@ const destroy = async (req, res) => {
   }
 }
 
+//Carga de archivos de imagen
+const multerMiddleware = () => upload.fields([
+  {name: 'bird-img', maxCount: 1},
+]);
 
-module.exports = { index, show, create, update, destroy }
+module.exports = { index, show, create, update, destroy, multerMiddleware }

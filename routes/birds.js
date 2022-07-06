@@ -6,7 +6,7 @@ const BirdsController = require('../controllers/BirdsController')
 
 router.route('/')
   .get(BirdsController.index)
-  .post(BirdsController.create)
+  .post(BirdsController.multerMiddleware(), BirdsController.create)
 
 router.route('/:id')
   .get(BirdsController.show)
