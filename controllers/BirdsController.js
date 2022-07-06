@@ -37,7 +37,7 @@ const show = async (req, res) => {
 }
 
 //Crear un recurso
-const create = async (req, res) => {
+const create = async (req, res, next) => {
   try{
     const bird = await Bird.create({
       name: req.body.name,
@@ -46,7 +46,8 @@ const create = async (req, res) => {
       location: req.body.location
     });
 
-    res.json(bird);
+    req.bird = bird;
+    next();
   }catch(error){
     console.log(error);
     res.json({error});
@@ -89,4 +90,22 @@ const multerMiddleware = () => upload.fields([
   {name: 'bird-img', maxCount: 1},
 ]);
 
-module.exports = { find, index, show, create, update, destroy, multerMiddleware }
+//SaveImage es la última capa que recorre un recurso al crearse, aquí se valida que venga una imagen adjunta para subirla a un servicio cloud
+const saveImage = async(req,res) => {
+  if(req.bird){
+    console.log(req.files['bird-img']);
+    if(req.files && req.files['bird-img']){
+      try{
+        const path = req.files['bird-img'][0].path;
+        await req.bird.updateImage(path)
+
+        res.json(req.bird);
+      }catch(error){
+        console.log(error);
+        res.json({error});
+      }
+    }
+  }
+}
+
+module.exports = { find, index, show, create, update, destroy, multerMiddleware, saveImage }

@@ -28,7 +28,9 @@ PDTE
 
 * [Express generator](https://expressjs.com/es/starter/generator.html) - Framework NodeJS
 * [Mongoose](https://mongoosejs.com/docs/index.html) - ODM
-* [Multer](https://www.npmjs.com/package/multer)
+* [Multer](https://www.npmjs.com/package/multer) - Files uploader middleware
+* [Cloudinary](https://cloudinary.com/documentation) - Cloud storage
+* [Dotenv](https://www.npmjs.com/package/dotenv) - Enviroment vars admin
 
 ## Wiki 📖
 
