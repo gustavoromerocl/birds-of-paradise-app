@@ -1,6 +1,18 @@
 const Bird = require('../models/Bird');
 const upload = require('../config/upload');
 
+//Middleware de busqueda para reutilizar la funcíon de búsqueda
+const find = async (req, res, next) => {
+  try{
+    const bird = await Bird.findById(req.params.id);
+
+    req.bird = bird;
+    next();
+  }catch(error){
+    next(error);
+  }
+}
+
 //Mostrar todos los recursos del schema Bird
 const index = async (req, res) => {
   try{
@@ -17,9 +29,7 @@ const index = async (req, res) => {
 //Mostrar el recurso solicitado de manera individual
 const show = async (req, res) => {
   try{
-    const bird = await Bird.findById(req.params.id);
-    
-    res.json({bird});
+    res.json(req.bird);
   }catch(error){
     console.log(error);
     res.json({error});
@@ -46,14 +56,17 @@ const create = async (req, res) => {
 //Actualizar un recurso
 const update = async (req, res) => {
   try{
-    const bird = await Bird.updateOne({_id: req.params.id}, {
+    let params = {
       name: req.body.name,
       type: req.body.type,
       description: req.body.description,
       location: req.body.location
-    });
+    }
 
-    res.json(bird);
+    req.bird = Object.assign(req.bird, params);
+    await req.bird.save();
+
+    res.json(req.bird);
   }catch(error){
     console.log(error);
     res.json({error});
@@ -63,9 +76,8 @@ const update = async (req, res) => {
 //Eliminar un recurso
 const destroy = async (req, res) => {
   try{
-    const bird = await Bird.findByIdAndRemove(req.params.id);
-
-    res.json(bird);
+    req.bird.remove();
+    res.json({});
   }catch(error){
     console.log(error);
     res.json({error});
@@ -77,4 +89,4 @@ const multerMiddleware = () => upload.fields([
   {name: 'bird-img', maxCount: 1},
 ]);
 
-module.exports = { index, show, create, update, destroy, multerMiddleware }
+module.exports = { find, index, show, create, update, destroy, multerMiddleware }

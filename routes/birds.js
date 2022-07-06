@@ -9,8 +9,8 @@ router.route('/')
   .post(BirdsController.multerMiddleware(), BirdsController.create)
 
 router.route('/:id')
-  .get(BirdsController.show)
-  .put(BirdsController.update)
-  .delete(BirdsController.destroy)
+  .get(BirdsController.find, BirdsController.show)
+  .put(BirdsController.find, BirdsController.update)
+  .delete(BirdsController.find, BirdsController.destroy)
 
 module.exports = router;
